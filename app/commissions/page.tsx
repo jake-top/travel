@@ -51,10 +51,10 @@ export default function CommissionsPage() {
       <div className="space-y-6">
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard title="Total Earned" value={formatCurrency(commissionStats.total)} icon={DollarSign} iconBg="bg-emerald-50" iconColor="text-emerald-600" />
-          <StatCard title="Paid Out" value={formatCurrency(commissionStats.paid.amount)} change={`${commissionStats.paid.count} payments`} changeType="up" icon={CheckCircle} iconBg="bg-emerald-50" iconColor="text-emerald-600" />
-          <StatCard title="Approved (Pending Payment)" value={formatCurrency(commissionStats.approved.amount)} icon={TrendingUp} iconBg="bg-blue-50" iconColor="text-blue-600" />
-          <StatCard title="Awaiting Approval" value={formatCurrency(commissionStats.pending.amount)} icon={Clock} iconBg="bg-amber-50" iconColor="text-amber-600" />
+          <StatCard title="Total Earned" value={formatCurrency(commissionStats.total)} icon={DollarSign} iconGradient="from-emerald-500 to-teal-600" />
+          <StatCard title="Paid Out" value={formatCurrency(commissionStats.paid.amount)} change={`${commissionStats.paid.count} payments`} changeType="up" icon={CheckCircle} iconGradient="from-emerald-500 to-teal-600" />
+          <StatCard title="Approved (Pending Payment)" value={formatCurrency(commissionStats.approved.amount)} icon={TrendingUp} iconGradient="from-blue-500 to-blue-700" />
+          <StatCard title="Awaiting Approval" value={formatCurrency(commissionStats.pending.amount)} icon={Clock} iconGradient="from-amber-500 to-orange-600" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
