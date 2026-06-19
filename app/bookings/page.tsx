@@ -5,10 +5,9 @@ import { useAuth } from '@/context/AuthContext';
 import AppShell from '@/components/layout/AppShell';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
-import Button from '@/components/ui/Button';
 import { getBookingsForAdvisor, getAllBookings, formatCurrency, formatDate } from '@/lib/mockData';
 import { bookingStatusVariant, commissionStatusVariant } from '@/lib/statusHelpers';
-import { Search, Filter, Plus, MapPin, Calendar, Users, ExternalLink } from 'lucide-react';
+import { Search, Filter, Plus, MapPin, Calendar, Users, ExternalLink, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Booking, BookingStatus } from '@/types';
 
@@ -51,8 +50,8 @@ export default function BookingsPage() {
       title="Bookings"
       subtitle={`${filtered.length} bookings`}
       actions={
-        <Link href="/bookings/new">
-          <Button size="sm"><Plus size={14} className="mr-1" /> New Booking</Button>
+        <Link href="/bookings/new" className="inline-flex items-center justify-center font-semibold px-3.5 py-2 text-xs rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-md shadow-blue-200 hover:shadow-lg transition-all active:scale-[0.98]">
+          <Plus size={14} className="mr-1" /> New Booking
         </Link>
       }
     >
@@ -145,7 +144,7 @@ export default function BookingsPage() {
                         <Calendar size={11} />
                         {formatDate(booking.departureDate)}
                       </div>
-                      <p className="text-xs text-slate-400 mt-0.5">→ {formatDate(booking.returnDate)}</p>
+                      <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1"><ArrowRight size={10} /> {formatDate(booking.returnDate)}</p>
                     </td>
                     <td className="px-4 py-4 text-right">
                       <p className="text-sm font-semibold text-slate-800">{formatCurrency(booking.totalValue)}</p>
@@ -162,10 +161,8 @@ export default function BookingsPage() {
                       </Badge>
                     </td>
                     <td className="px-4 py-4">
-                      <Link href={`/bookings/${booking.id}`}>
-                        <button className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors">
-                          <ExternalLink size={14} />
-                        </button>
+                      <Link href={`/bookings/${booking.id}`} className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors inline-flex">
+                        <ExternalLink size={14} />
                       </Link>
                     </td>
                   </tr>

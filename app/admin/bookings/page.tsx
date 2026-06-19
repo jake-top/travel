@@ -150,10 +150,8 @@ export default function AdminBookingsPage() {
                       <Badge variant={bookingStatusVariant(b.bookingStatus) as 'success'}>{b.bookingStatus}</Badge>
                     </td>
                     <td className="px-4 py-3">
-                      <Link href={`/bookings/${b.id}`}>
-                        <button className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors">
-                          <ExternalLink size={14} />
-                        </button>
+                      <Link href={`/bookings/${b.id}`} className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors inline-flex">
+                        <ExternalLink size={14} />
                       </Link>
                     </td>
                   </tr>

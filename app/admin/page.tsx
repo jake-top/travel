@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import AppShell from '@/components/layout/AppShell';
 import StatCard from '@/components/ui/StatCard';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
@@ -9,7 +10,7 @@ import Button from '@/components/ui/Button';
 import Link from 'next/link';
 import { getAllAdvisors, getAllBookings, formatCurrency, formatDate, getTierConfig } from '@/lib/mockData';
 import { bookingStatusVariant } from '@/lib/statusHelpers';
-import { Users, DollarSign, FileText, TrendingUp, ArrowRight, AlertTriangle, CheckCircle2, Sparkles, Activity } from 'lucide-react';
+import { Users, DollarSign, FileText, TrendingUp, ArrowRight, AlertTriangle, CheckCircle2, Sparkles, Activity, Dot } from 'lucide-react';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, BarChart, Bar, Cell,
@@ -34,6 +35,7 @@ const TIER_COLORS: Record<string, string> = {
 };
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const advisors = getAllAdvisors();
   const bookings = getAllBookings();
 
@@ -63,7 +65,7 @@ export default function AdminDashboard() {
 
   return (
     <AppShell title="Admin Overview" subtitle="Platform performance dashboard">
-      <div className="space-y-6 max-w-7xl">
+      <div className="space-y-6">
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -135,10 +137,8 @@ export default function AdminDashboard() {
                 <p className="text-sm font-bold text-slate-800 mt-0.5">{formatCurrency(stats.totalBookingValue / advisors.length)}</p>
               </div>
             </div>
-            <Link href="/admin/advisors" className="block mt-3">
-              <Button variant="outline" size="sm" className="w-full gap-1.5 justify-center">
-                <Users size={13} /> View All Advisors
-              </Button>
+            <Link href="/admin/advisors" className="block mt-3 w-full inline-flex items-center justify-center gap-1.5 font-semibold px-3.5 py-2 text-xs rounded-xl border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-700 shadow-sm hover:shadow-md transition-all active:scale-[0.98]">
+              <Users size={13} /> View All Advisors
             </Link>
           </Card>
         </div>
@@ -151,8 +151,8 @@ export default function AdminDashboard() {
                 <CardTitle>Advisor Leaderboard</CardTitle>
                 <p className="text-xs text-slate-400 mt-0.5 font-normal">Ranked by YTD sales</p>
               </div>
-              <Link href="/admin/advisors">
-                <Button variant="ghost" size="sm" className="gap-1 text-blue-600 hover:bg-blue-50">View all <ArrowRight size={13} /></Button>
+              <Link href="/admin/advisors" className="inline-flex items-center gap-1 px-3.5 py-2 text-xs font-semibold rounded-xl text-blue-600 hover:bg-blue-50 transition-all">
+                View all <ArrowRight size={13} />
               </Link>
             </div>
             <div className="divide-y divide-slate-50">
@@ -195,8 +195,8 @@ export default function AdminDashboard() {
                 <CardTitle>Pending Approvals</CardTitle>
                 <p className="text-xs text-slate-400 mt-0.5 font-normal">{pendingCommBookings.length} commissions awaiting review</p>
               </div>
-              <Link href="/admin/commissions">
-                <Button variant="ghost" size="sm" className="gap-1 text-blue-600 hover:bg-blue-50">View all <ArrowRight size={13} /></Button>
+              <Link href="/admin/commissions" className="inline-flex items-center gap-1 px-3.5 py-2 text-xs font-semibold rounded-xl text-blue-600 hover:bg-blue-50 transition-all">
+                View all <ArrowRight size={13} />
               </Link>
             </div>
             {pendingCommBookings.length === 0 ? (
@@ -210,7 +210,7 @@ export default function AdminDashboard() {
                   <div key={b.id} className="px-6 py-3.5 flex items-center justify-between hover:bg-slate-50/80 transition-colors">
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-slate-900 truncate">{b.clientName}</p>
-                      <p className="text-xs text-slate-400 mt-0.5">{b.advisorName} · <span className="font-mono">{b.id}</span></p>
+                      <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1">{b.advisorName} <Dot size={14} className="text-slate-300" /> <span className="font-mono">{b.id}</span></p>
                     </div>
                     <div className="flex items-center gap-3 flex-shrink-0">
                       <div className="text-right">
@@ -233,8 +233,8 @@ export default function AdminDashboard() {
               <Activity size={15} className="text-slate-400" />
               <CardTitle>Recent Bookings</CardTitle>
             </div>
-            <Link href="/admin/bookings">
-              <Button variant="ghost" size="sm" className="gap-1 text-blue-600 hover:bg-blue-50">View all <ArrowRight size={13} /></Button>
+            <Link href="/admin/bookings" className="inline-flex items-center gap-1 px-3.5 py-2 text-xs font-semibold rounded-xl text-blue-600 hover:bg-blue-50 transition-all">
+              View all <ArrowRight size={13} />
             </Link>
           </div>
           <div className="overflow-x-auto">
@@ -252,8 +252,7 @@ export default function AdminDashboard() {
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {recentBookings.map((b) => (
-                  <Link key={b.id} href={`/bookings/${b.id}`} legacyBehavior>
-                    <tr className="hover:bg-slate-50/80 transition-colors cursor-pointer table-row-hover">
+                  <tr key={b.id} className="hover:bg-slate-50/80 transition-colors cursor-pointer table-row-hover" onClick={() => router.push(`/bookings/${b.id}`)}>
                       <td className="px-6 py-3.5">
                         <p className="text-xs font-bold text-blue-600 font-mono">{b.id}</p>
                         <p className="text-[10px] text-slate-400">{formatDate(b.createdAt)}</p>
@@ -272,7 +271,6 @@ export default function AdminDashboard() {
                         <Badge variant={bookingStatusVariant(b.bookingStatus) as 'success'}>{b.bookingStatus}</Badge>
                       </td>
                     </tr>
-                  </Link>
                 ))}
               </tbody>
             </table>

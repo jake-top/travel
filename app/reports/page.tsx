@@ -11,7 +11,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   LineChart, Line, PieChart, Pie, Cell, Legend,
 } from 'recharts';
-import { Download, BarChart3, TrendingUp, Users, FileText, Award, ChevronDown } from 'lucide-react';
+import { Download, BarChart3, TrendingUp, Users, FileText, Award, ChevronDown, ArrowRight } from 'lucide-react';
 
 type ReportTab = 'sales' | 'commission' | 'advisor_performance' | 'booking_status' | 'tier_summary';
 
@@ -169,7 +169,7 @@ export default function ReportsPage() {
             onChange={(e) => setStartDate(e.target.value)}
             className="px-3 py-1.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <span className="text-slate-400">→</span>
+          <ArrowRight size={14} className="text-slate-400" />
           <input
             type="date"
             value={endDate}

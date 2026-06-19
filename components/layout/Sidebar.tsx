@@ -14,13 +14,10 @@ import {
   Plane,
   Plus,
   ChevronRight,
-  Sparkles,
   TrendingUp,
-  Shield,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { getTierConfig } from '@/lib/mockData';
-import { formatCurrency } from '@/lib/mockData';
+import { getTierConfig, formatCurrency } from '@/lib/mockData';
 
 const advisorNav = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, badge: null },
@@ -56,10 +53,10 @@ export default function Sidebar() {
   return (
     <div className="flex flex-col h-full w-64 sidebar-gradient text-white">
 
-      {/* Logo Header */}
-      <div className="px-5 pt-6 pb-5">
+      {/* Logo */}
+      <div className="px-5 pt-6 pb-4">
         <div className="flex items-center gap-3">
-          <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/40">
+          <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/40 flex-shrink-0">
             <Plane size={17} className="text-white" />
             <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-slate-900 pulse-dot" />
           </div>
@@ -70,50 +67,29 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* User Profile Card */}
-      <div className="mx-3 mb-4 rounded-xl bg-white/5 border border-white/10 p-3.5 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${tierGrad} flex items-center justify-center text-sm font-bold text-white shadow-lg flex-shrink-0`}>
-            {user?.name?.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()}
+      {/* Tier Progress (advisor only) */}
+      {user?.role === 'advisor' && tierCfg && (
+        <div className="mx-4 mb-4 rounded-xl bg-white/5 border border-white/10 px-3.5 py-3">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className={`text-[11px] font-bold bg-gradient-to-r ${tierGrad} bg-clip-text text-transparent`}>
+              {tierCfg.label} Tier
+            </span>
+            <span className="text-[11px] font-semibold text-emerald-400">{formatCurrency(user.ytdSales)} YTD</span>
           </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-white truncate leading-tight">{user?.name}</p>
-            <p className="text-[11px] text-slate-400 truncate mt-0.5">{user?.email}</p>
+          <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div
+              className={`h-full bg-gradient-to-r ${tierGrad} rounded-full transition-all duration-1000`}
+              style={{ width: `${Math.min(100, ((user.ytdSales || 0) / (tierCfg.maxSales || user.ytdSales || 1)) * 100)}%` }}
+            />
           </div>
         </div>
-        {user?.role === 'advisor' && tierCfg && (
-          <div className="mt-3 pt-3 border-t border-white/10">
-            <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-1.5">
-                <Sparkles size={11} className="text-yellow-400" />
-                <span className={`text-[11px] font-bold bg-gradient-to-r ${tierGrad} bg-clip-text text-transparent`}>
-                  {tierCfg.label} Tier
-                </span>
-              </div>
-              <span className="text-[11px] font-semibold text-emerald-400">{(tierCfg.rate * 100).toFixed(0)}% rate</span>
-            </div>
-            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-              <div
-                className={`h-full bg-gradient-to-r ${tierGrad} rounded-full transition-all duration-1000`}
-                style={{ width: `${Math.min(100, ((user.ytdSales || 0) / (tierCfg.maxSales || user.ytdSales || 1)) * 100)}%` }}
-              />
-            </div>
-            <p className="text-[10px] text-slate-500 mt-1">{formatCurrency(user.ytdSales)} YTD</p>
-          </div>
-        )}
-        {user?.role === 'super_admin' && (
-          <div className="mt-3 pt-3 border-t border-white/10 flex items-center gap-2">
-            <Shield size={12} className="text-indigo-400" />
-            <span className="text-[11px] font-semibold text-indigo-300">Super Administrator</span>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* Quick Action */}
       {user?.role === 'advisor' && (
-        <div className="mx-3 mb-4">
+        <div className="mx-4 mb-4">
           <Link href="/bookings/new">
-            <div className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-900/30 cursor-pointer group">
+            <div className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-900/30 cursor-pointer">
               <Plus size={15} className="text-white" />
               <span className="text-sm font-semibold text-white">New Booking</span>
             </div>
@@ -121,7 +97,7 @@ export default function Sidebar() {
         </div>
       )}
 
-      {/* Nav Section Label */}
+      {/* Nav Label */}
       <div className="px-5 mb-2">
         <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest">Navigation</p>
       </div>
@@ -162,11 +138,11 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Performance Snapshot (advisor only) */}
+      {/* Quick Stats (advisor only) */}
       {user?.role === 'advisor' && (
-        <div className="mx-3 my-4 rounded-xl bg-white/5 border border-white/10 p-3.5">
-          <div className="flex items-center gap-1.5 mb-3">
-            <TrendingUp size={12} className="text-emerald-400" />
+        <div className="mx-4 my-3 rounded-xl bg-white/5 border border-white/10 px-3.5 py-3">
+          <div className="flex items-center gap-1.5 mb-2">
+            <TrendingUp size={11} className="text-emerald-400" />
             <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Quick Stats</p>
           </div>
           <div className="grid grid-cols-2 gap-2">

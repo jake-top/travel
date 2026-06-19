@@ -6,7 +6,6 @@ import AppShell from '@/components/layout/AppShell';
 import StatCard from '@/components/ui/StatCard';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
-import Button from '@/components/ui/Button';
 import { getBookingsForAdvisor, formatCurrency, formatDate, getTierConfig, TIER_CONFIG } from '@/lib/mockData';
 import { bookingStatusVariant, commissionStatusVariant } from '@/lib/statusHelpers';
 import {
@@ -68,15 +67,15 @@ export default function AdvisorDashboard() {
 
   return (
     <AppShell
-      title={`Good morning, ${user?.name?.split(' ')[0]} 👋`}
+      title={`Good morning, ${user?.name?.split(' ')[0]}`}
       subtitle={`${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}`}
       actions={
-        <Link href="/bookings/new">
-          <Button size="sm"><Plus size={13} className="mr-1.5" /> New Booking</Button>
+        <Link href="/bookings/new" className="inline-flex items-center justify-center font-semibold px-3.5 py-2 text-xs rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-md shadow-blue-200 hover:shadow-lg transition-all active:scale-[0.98]">
+          <Plus size={13} className="mr-1.5" /> New Booking
         </Link>
       }
     >
-      <div className="space-y-6 max-w-7xl">
+      <div className="space-y-6">
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -240,17 +239,15 @@ export default function AdvisorDashboard() {
               <CardTitle>Recent Bookings</CardTitle>
               <p className="text-xs text-slate-400 mt-0.5 font-normal">{bookings.length} total bookings</p>
             </div>
-            <Link href="/bookings">
-              <Button variant="ghost" size="sm" className="gap-1 text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-                View all <ArrowRight size={13} />
-              </Button>
+            <Link href="/bookings" className="inline-flex items-center gap-1 px-3.5 py-2 text-xs font-semibold rounded-xl text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-all">
+              View all <ArrowRight size={13} />
             </Link>
           </div>
           <div className="divide-y divide-slate-50">
             {recentBookings.length === 0 && (
               <div className="text-center py-16 text-slate-400">
                 <Plane size={32} className="mx-auto mb-3 opacity-30" />
-                <p className="text-sm">No bookings yet. <Link href="/bookings/new" className="text-blue-600 hover:underline">Submit your first booking →</Link></p>
+                <p className="text-sm">No bookings yet. <Link href="/bookings/new" className="inline-flex items-center gap-1 text-blue-600 hover:underline">Submit your first booking <ArrowRight size={14} /></Link></p>
               </div>
             )}
             {recentBookings.map((booking, idx) => (

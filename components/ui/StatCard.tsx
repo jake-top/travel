@@ -1,5 +1,5 @@
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon, TrendingUp, TrendingDown } from 'lucide-react';
 
 interface StatCardProps {
   title: string;
@@ -33,7 +33,7 @@ export default function StatCard({
     changeType === 'up' ? 'text-emerald-600 bg-emerald-50' :
     changeType === 'down' ? 'text-red-500 bg-red-50' :
     'text-slate-500 bg-slate-100';
-  const changePrefix = changeType === 'up' ? '↑ ' : changeType === 'down' ? '↓ ' : '';
+  const ChangeIcon = changeType === 'up' ? TrendingUp : changeType === 'down' ? TrendingDown : null;
 
   return (
     <div className="stat-card bg-white rounded-2xl border border-slate-100 shadow-sm shadow-slate-200/60 p-5 overflow-hidden relative">
@@ -46,8 +46,8 @@ export default function StatCard({
           <Icon size={20} className="text-white" />
         </div>
         {change && (
-          <span className={`text-xs font-semibold px-2 py-1 rounded-lg ${changeColor}`}>
-            {changePrefix}{change}
+          <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-lg ${changeColor}`}>
+            {ChangeIcon && <ChangeIcon size={12} />}{change}
           </span>
         )}
       </div>

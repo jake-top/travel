@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Eye, EyeOff, AlertCircle, Plane, TrendingUp, Award, Shield, ArrowRight, Sparkles } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle, Plane, TrendingUp, Award, Shield, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
 
 const DEMO_ACCOUNTS = [
   { label: 'Super Admin', email: 'admin@xullu.com', role: 'Full Platform Access', color: 'from-indigo-500 to-purple-600', icon: Shield },
@@ -191,7 +191,7 @@ export default function LoginPage() {
               style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' }}
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <Loader2 size={20} className="animate-spin text-white" />
               ) : (
                 <>
                   Sign In
@@ -231,7 +231,7 @@ export default function LoginPage() {
           </div>
 
           <p className="text-center text-xs text-slate-400 mt-8">
-            © 2024 Xullu Travel · Internal Platform · v2.0
+            2024 Xullu Travel - Internal Platform - v2.0
           </p>
         </div>
       </div>
