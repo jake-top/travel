@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Eye, EyeOff, AlertCircle, Plane, TrendingUp, Award, Shield, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle, Plane, TrendingUp, Award, Shield, ArrowRight, Sparkles, Loader2, Mail } from 'lucide-react';
 
 const DEMO_ACCOUNTS = [
   { label: 'Super Admin', email: 'admin@xullu.com', role: 'Full Platform Access', color: 'from-indigo-500 to-purple-600', icon: Shield },
@@ -26,6 +26,7 @@ export default function LoginPage() {
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [forgotMsg, setForgotMsg] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,6 +148,14 @@ export default function LoginPage() {
             </div>
           )}
 
+          {/* Forgot Password Message */}
+          {forgotMsg && (
+            <div className="flex items-center gap-3 p-3.5 rounded-xl bg-blue-50 border border-blue-200 mb-5">
+              <Mail size={16} className="text-blue-500 flex-shrink-0" />
+              <p className="text-sm text-blue-600">Password reset link sent. Check your email.</p>
+            </div>
+          )}
+
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4 mb-6">
             <div>
@@ -163,7 +172,7 @@ export default function LoginPage() {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-sm font-semibold text-slate-700">Password</label>
-                <span className="text-xs text-blue-600 cursor-pointer hover:text-blue-700 font-medium">Forgot password?</span>
+                <button type="button" onClick={() => { setForgotMsg(true); setTimeout(() => setForgotMsg(false), 3000); }} className="text-xs text-blue-600 cursor-pointer hover:text-blue-700 font-medium">Forgot password?</button>
               </div>
               <div className="relative">
                 <input

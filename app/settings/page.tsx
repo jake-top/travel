@@ -12,6 +12,7 @@ import { User, Bell, Shield, Mail, CreditCard, CheckCircle } from 'lucide-react'
 export default function SettingsPage() {
   const { user } = useAuth();
   const [saved, setSaved] = useState(false);
+  const [passwordSaved, setPasswordSaved] = useState(false);
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
   const [phone, setPhone] = useState(user?.phone || '');
@@ -140,7 +141,15 @@ export default function SettingsPage() {
                 <Input label="New Password" type="password" placeholder="••••••••" hint="Minimum 8 characters" />
                 <Input label="Confirm New Password" type="password" placeholder="••••••••" />
               </div>
-              <Button variant="outline" className="mt-4">Update Password</Button>
+              <div className="flex items-center gap-3 mt-4">
+                <Button variant="outline" onClick={() => { setPasswordSaved(true); setTimeout(() => setPasswordSaved(false), 3000); }}>Update Password</Button>
+                {passwordSaved && (
+                  <div className="flex items-center gap-2 text-emerald-600">
+                    <CheckCircle size={16} />
+                    <span className="text-sm">Password updated!</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </Card>

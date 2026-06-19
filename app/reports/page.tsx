@@ -11,7 +11,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   LineChart, Line, PieChart, Pie, Cell, Legend,
 } from 'recharts';
-import { Download, BarChart3, TrendingUp, Users, FileText, Award, ChevronDown, ArrowRight } from 'lucide-react';
+import { Download, BarChart3, TrendingUp, Users, FileText, Award, ChevronDown, ArrowRight, CheckCircle } from 'lucide-react';
 
 type ReportTab = 'sales' | 'commission' | 'advisor_performance' | 'booking_status' | 'tier_summary';
 
@@ -41,6 +41,7 @@ export default function ReportsPage() {
   const [startDate, setStartDate] = useState('2024-01-01');
   const [endDate, setEndDate] = useState('2024-12-31');
   const [advisorFilter, setAdvisorFilter] = useState('all');
+  const [filterApplied, setFilterApplied] = useState(false);
 
   const advisors = getAllAdvisors();
   const bookings = getAllBookings();
@@ -184,7 +185,9 @@ export default function ReportsPage() {
             <option value="all">All Advisors</option>
             {advisors.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
           </select>
-          <Button size="sm">Apply Filters</Button>
+          <Button size="sm" onClick={() => { setFilterApplied(true); setTimeout(() => setFilterApplied(false), 2000); }}>
+            {filterApplied ? <><CheckCircle size={13} className="mr-1" /> Applied</> : 'Apply Filters'}
+          </Button>
         </div>
 
         {/* Report Tabs */}

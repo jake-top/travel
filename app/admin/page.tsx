@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AppShell from '@/components/layout/AppShell';
 import StatCard from '@/components/ui/StatCard';
@@ -38,6 +38,7 @@ export default function AdminDashboard() {
   const router = useRouter();
   const advisors = getAllAdvisors();
   const bookings = getAllBookings();
+  const [approvedIds, setApprovedIds] = useState<Set<string>>(new Set());
 
   const stats = useMemo(() => {
     const totalBookingValue = bookings.reduce((s, b) => s + b.totalValue, 0);
@@ -60,7 +61,7 @@ export default function AdminDashboard() {
     color: TIER_COLORS[tier],
   }));
 
-  const pendingCommBookings = bookings.filter((b) => b.commissionStatus === 'pending').slice(0, 5);
+  const pendingCommBookings = bookings.filter((b) => b.commissionStatus === 'pending' && !approvedIds.has(b.id)).slice(0, 5);
   const recentBookings = [...bookings].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 6);
 
   return (
@@ -217,7 +218,7 @@ export default function AdminDashboard() {
                         <p className="text-sm font-bold text-amber-600">{formatCurrency(b.commissionAmount)}</p>
                         <p className="text-[10px] text-slate-400">{(b.commissionRate * 100).toFixed(0)}% rate</p>
                       </div>
-                      <Button size="xs" variant="success">Approve</Button>
+                      <Button size="xs" variant="success" onClick={() => setApprovedIds(prev => new Set([...prev, b.id]))}>Approve</Button>
                     </div>
                   </div>
                 ))}

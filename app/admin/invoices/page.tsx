@@ -111,7 +111,7 @@ export default function AdminInvoicesPage() {
       <div className="space-y-6">
         {/* Toast */}
         {toast && (
-          <div className={`fixed top-20 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border fade-in-up ${
+          <div className={`fixed top-20 right-6 z-[100] flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border fade-in-up ${
             toast.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
             : toast.type === 'error' ? 'bg-red-50 border-red-200 text-red-700'
             : 'bg-blue-50 border-blue-200 text-blue-700'
@@ -124,7 +124,7 @@ export default function AdminInvoicesPage() {
 
         {/* Preview Modal */}
         {previewDoc && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setPreviewDoc(null)}>
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setPreviewDoc(null)}>
             <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full mx-4 fade-in-up" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-bold text-slate-900">Document Preview</h3>

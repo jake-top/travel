@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import AppShell from '@/components/layout/AppShell';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
@@ -10,6 +11,7 @@ import { exportToCSV } from '@/lib/statusHelpers';
 import { Search, Download, Mail, Phone, Calendar, TrendingUp, Award } from 'lucide-react';
 
 export default function AdminAdvisorsPage() {
+  const router = useRouter();
   const [search, setSearch] = useState('');
   const [tierFilter, setTierFilter] = useState<string>('all');
 
@@ -153,8 +155,8 @@ export default function AdminAdvisorsPage() {
               </div>
 
               <div className="mt-3 flex gap-2">
-                <Button variant="outline" size="sm" className="flex-1 text-xs">View Bookings</Button>
-                <Button variant="ghost" size="sm" className="text-xs">
+                <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={() => router.push('/admin/bookings')}>View Bookings</Button>
+                <Button variant="ghost" size="sm" className="text-xs" onClick={() => window.open(`mailto:${a.email}`)}>
                   <Mail size={13} />
                 </Button>
               </div>

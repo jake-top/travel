@@ -1,6 +1,6 @@
 'use client';
 
-import { use } from 'react';
+import { use, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AppShell from '@/components/layout/AppShell';
 import Card, { CardHeader, CardTitle } from '@/components/ui/Card';
@@ -21,12 +21,21 @@ import {
   Download,
   Upload,
   DollarSign,
+  CheckCircle,
+  X,
 } from 'lucide-react';
 
 export default function BookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
   const booking = MOCK_BOOKINGS.find((b) => b.id === id);
+  const [toast, setToast] = useState<string | null>(null);
+  const [showUpload, setShowUpload] = useState(false);
+
+  const showToastMsg = useCallback((msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
+  }, []);
 
   if (!booking) {
     return (
@@ -54,6 +63,15 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
         </Button>
       }
     >
+      {/* Toast */}
+      {toast && (
+        <div className="fixed top-20 right-6 z-[100] flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border bg-emerald-50 border-emerald-200 text-emerald-700 fade-in-up">
+          <CheckCircle size={16} />
+          <span className="text-sm font-medium">{toast}</span>
+          <button onClick={() => setToast(null)} className="ml-2 hover:opacity-70"><X size={14} /></button>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Details */}
         <div className="lg:col-span-2 space-y-6">
@@ -133,7 +151,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
           <Card>
             <CardHeader>
               <CardTitle>Documents & Invoices</CardTitle>
-              <Button size="sm" variant="outline">
+              <Button size="sm" variant="outline" onClick={() => showToastMsg('Document uploaded successfully')}>
                 <Upload size={13} className="mr-1" /> Upload
               </Button>
             </CardHeader>
@@ -162,7 +180,7 @@ export default function BookingDetailPage({ params }: { params: Promise<{ id: st
                         </div>
                       </div>
                     </div>
-                    <button className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors">
+                    <button onClick={() => showToastMsg(`Downloading ${inv.fileName}...`)} className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors">
                       <Download size={15} />
                     </button>
                   </div>
